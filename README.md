@@ -12,14 +12,22 @@ For more information on node express applications, refer to http://expressjs.com
 File upload can be done through scripts found in bin/.
 
 For Node.js script run:
+
 npm install fs
+
 npm install http
+
 node update.js path/to/file
 
+
 For Python script (no external libraries) run:
+
 python update.python path/to/file
 
+
 For Python script (using external libraries) run:
+
 pip install requests
+
 python update_extlib.python path/to/file
 
