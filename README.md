@@ -9,7 +9,10 @@ and go to http://localhost:3002/ in your browser.
 For more information on node express applications, refer to http://expressjs.com/
 
 
-File upload can be done through scripts found in bin/.
+File upload can be done through scripts found in bin/. The HOST, PORT, and endpoint
+are hardcoded in the scripts and have to be modified there.
+
+
 
 For Node.js script run:
 
@@ -22,12 +25,12 @@ node update.js path/to/file
 
 For Python script (no external libraries) run:
 
-python update.python path/to/file
+python update.py path/to/file
 
 
 For Python script (using external libraries) run:
 
 pip install requests
 
-python update_extlib.python path/to/file
+python update_extlib.py path/to/file
 
