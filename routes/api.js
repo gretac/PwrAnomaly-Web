@@ -35,6 +35,9 @@ router.post('/upload', function (req, res) {
     if (err) throw err;
     console.log(files.traceFile);
     // execScript(files.traceFile.path, res);
+    fs.rename(file.traceFile.path, "files/trace.dat", function (err) {
+      if (err) throw err;
+    })
     res.end();
   });
 });
