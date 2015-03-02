@@ -20,10 +20,6 @@ var execScript = function (inFile, res) {
   });
 };
 
-router.get('/upload', function (req, res, next) {
-  res.render('index', { title: 'Uploads (not functional)' });
-});
-
 router.post('/upload', function (req, res) {
   console.log("uploading file");
 
@@ -34,11 +30,13 @@ router.post('/upload', function (req, res) {
   form.parse(req, function(err, fields, files) {
     if (err) throw err;
     console.log(files.traceFile);
-    // execScript(files.traceFile.path, res);
-    fs.rename(file.traceFile.path, "files/trace.dat", function (err) {
-      if (err) throw err;
-    })
-    res.end();
+
+    // TODO: rename file to expected name
+    // fs.rename(file.traceFile.path, "files/trace.dat", function (err) {
+    //   if (err) throw err;
+    // })
+
+    req.io.route('update');
   });
 });
 
