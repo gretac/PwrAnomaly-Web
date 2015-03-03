@@ -10,6 +10,8 @@ var fs = require('fs');
 var routes = require('./routes/index');
 var api = require('./routes/api');
 
+var utils = require('./utils');
+
 var app = express();
 app.http().io();
 
@@ -75,4 +77,12 @@ app.use(function(err, req, res, next) {
 });
 
 
-module.exports = app;
+// module.exports = app;
+var port = utils.normalizePort(process.env.PORT || '3002');
+app.set('port', port);
+
+app.listen(port);
+app.on('error', utils.onError);
+app.on('listening', utils.onListening);
+
+
