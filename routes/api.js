@@ -29,14 +29,12 @@ router.post('/upload', function (req, res) {
 
   form.parse(req, function(err, fields, files) {
     if (err) throw err;
-    console.log(files.traceFile);
+    console.log(files.traceFile.path);
 
-    // TODO: rename file to expected name
-    // fs.rename(file.traceFile.path, "files/trace.dat", function (err) {
-    //   if (err) throw err;
-    // })
-
-    req.io.route('update');
+    fs.rename(files.traceFile.path, "files/trace.dat", function (err) {
+      if (err) throw err;
+      req.io.route('update');
+    })
   });
 });
 

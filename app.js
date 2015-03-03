@@ -5,6 +5,7 @@ var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
+var fs = require('fs');
 
 var routes = require('./routes/index');
 var api = require('./routes/api');
@@ -29,12 +30,18 @@ app.use('/api', api);
 app.io.route('update', function (req) {
   console.log('broadcasting update to clients');
 
-  // TODO: read contents of file
-  var fileContent = "test";
+  fs.readFile('files/trace.dat', function (err, fileContent) {
+    if (err) throw err;
 
-  req.io.broadcast('powerData', { data: fileContent });
-  req.io.respond({ 'status': 'done' });
-})
+    fileContent = String(fileContent).split("\n");
+    fileContent.forEach(function (elem, index) {
+      fileContent[index] = parseInt(elem);
+    });
+
+    req.io.broadcast('powerData', { data: fileContent });
+    req.io.respond({ 'status': 'done' });
+  });
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
