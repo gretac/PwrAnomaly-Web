@@ -29,11 +29,27 @@ router.post('/upload', function (req, res) {
 
   form.parse(req, function(err, fields, files) {
     if (err) throw err;
+
+    console.log("fields");
+    console.log(fields);
+
+    console.log("files");
     console.log(files);
+
     if (!files.traceFile) return;
+
     fs.rename(files.traceFile.path, "files/trace.dat", function (err) {
       if (err) throw err;
+
+      // update graph with new data
       req.io.route('update');
+
+      // update alarm and message
+      req.body = {};
+      req.body.alarm = (fields.alarm === "true");
+      req.body.alarmMessage = fields.alarmMessage;
+      req.io.route('upalarm');
+
       res.end();
     })
   });

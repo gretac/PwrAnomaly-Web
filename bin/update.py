@@ -6,8 +6,8 @@ HOST = "localhost"
 PORT = "3002"
 ENDPOINT = "/api/upload"
 
-def post_multipart(host, port, endpoint, files):
-    content_type, body = encode_multipart_formdata(files)
+def post_multipart(host, port, endpoint, files, fields):
+    content_type, body = encode_multipart_formdata(files, fields)
 
     h = httplib.HTTP(host, port)
     h.putrequest('POST', endpoint)
@@ -18,15 +18,15 @@ def post_multipart(host, port, endpoint, files):
     errcode, errmsg, headers = h.getreply()
     return h.file.read()
 
-def encode_multipart_formdata(files):
+def encode_multipart_formdata(files, fields):
     LIMIT = '----------lImIt_of_THE_fIle_eW_$'
     CRLF = '\r\n'
     L = []
-    # for (key, value) in fields:
-    #     L.append('--' + LIMIT)
-    #     L.append('Content-Disposition: form-data; name="%s"' % key)
-    #     L.append('')
-    #     L.append(value)
+    for (key, value) in fields:
+        L.append('--' + LIMIT)
+        L.append('Content-Disposition: form-data; name="%s"' % key)
+        L.append('')
+        L.append(value)
     for (key, filename, value) in files:
         L.append('--' + LIMIT)
         L.append('Content-Disposition: form-data; name="%s"; filename="%s"' % (key, filename))
@@ -45,7 +45,8 @@ def get_content_type(filename):
 if len(sys.argv) <= 1: sys.exit(1)
 
 if sys.argv[1] == "-h":
-    print "Default Usage: python update.python filePath"
+    print "Default Usage: python update.python filePath alarm alarmMessage"
+    print "alarm is 'true' or 'false'"
     sys.exit(0)
 
 filePath = sys.argv[1]
@@ -53,5 +54,14 @@ f = open(filePath, 'rb')
 fileContent = f.read()
 f.close()
 
+alarm = sys.argv[2]
+alarmMessage = sys.argv[3] if len(sys.argv) > 3 else ""
+
+if alarm != "true" and alarm != "false":
+    print "alarm argument must be 'true' or 'flase', anomaly exists and no anomaly respectively"
+    exit(1)
+
 files = [("traceFile", filePath, fileContent)]
-post_multipart(HOST, PORT, ENDPOINT, files)
+fields = [("alarm", alarm), ("alarmMessage", alarmMessage)]
+
+post_multipart(HOST, PORT, ENDPOINT, files, fields)

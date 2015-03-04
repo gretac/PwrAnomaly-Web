@@ -41,8 +41,11 @@ app.io.route('update', function (req) {
     });
 
     req.io.broadcast('powerData', { data: fileContent });
-//    req.io.respond({ 'status': 'done' });
   });
+});
+
+app.io.route('upalarm', function (req) {
+  req.io.broadcast('alarm', { alarm: req.body.alarm, alarmMessage: req.body.alarmMessage });
 });
 
 // catch 404 and forward to error handler

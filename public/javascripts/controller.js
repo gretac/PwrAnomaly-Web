@@ -31,6 +31,17 @@ function refreshView (data) {
 }
 
 io.on("powerData", function (powerData) {
-//  console.log(powerData);
   refreshView(powerData.data);
 });
+
+io.on('alarm', function (alarmData) {
+  if (alarmData.alarm) {
+    document.getElementById("alarm-g").style.display = 'none';
+    document.getElementById("alarm-b").style.display = 'block';
+    document.getElementById("alarm-b").innerHTML = "Anomalies Detected: " + alarmData.alarmMessage;
+  } else {
+    document.getElementById("alarm-g").style.display = 'block';
+    document.getElementById("alarm-b").style.display = 'none';
+    document.getElementById("alarm-g").innerHTML = "No Anomalies Detected.";
+  }
+})
