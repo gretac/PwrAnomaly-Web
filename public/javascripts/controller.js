@@ -1,5 +1,10 @@
 io = io.connect()
 google.load('visualization', '1.1', {packages: ['line']});
+var chart;
+
+window.onload = function () {
+  chart = new google.charts.Line(document.getElementById('power_chart'));
+};
 
 function refreshView (data) {
   // display updated data in the view
@@ -22,11 +27,10 @@ function refreshView (data) {
 
   var options = { width: 1100, height: 500 };
 
-  var chart = new google.charts.Line(document.getElementById('power_chart'));
   chart.draw(data, options);
 }
 
 io.on("powerData", function (powerData) {
-  console.log(powerData);
+//  console.log(powerData);
   refreshView(powerData.data);
 });

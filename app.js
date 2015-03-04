@@ -41,7 +41,7 @@ app.io.route('update', function (req) {
     });
 
     req.io.broadcast('powerData', { data: fileContent });
-    req.io.respond({ 'status': 'done' });
+//    req.io.respond({ 'status': 'done' });
   });
 });
 
