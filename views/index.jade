@@ -1,11 +1,19 @@
 extends layout
 
 block content
-  h1= title
+  div.page-header
+    h1= title
 
   div#alarm-g(class=['alert', 'alert-success'], role='alert', style="display:none;")
   div#alarm-b(class=['alert', 'alert-danger'], role='alert', style="display:none;")
 
   div#power_chart
 
+  div#footer
+    hr
+    a(href="https://uwaterloo.ca/embedded-software-group/projects/tracing-software-through-power-consumption") Tracing Software through Power Consumption
+    br
+    br
 
+    p <b> Project Contributors:</b> Carlos Moreno, Sebastian Fischmeister
+    p Web-based display functionality:  Greta Cutulenco

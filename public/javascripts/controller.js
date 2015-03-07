@@ -6,9 +6,8 @@ window.onload = function () {
   chart = new google.charts.Line(document.getElementById('power_chart'));
 };
 
-function refreshView (data) {
+function refreshView (data, callback) {
   // display updated data in the view
-
   var doubleMax = 200, targetMax = 100;
   var actMin = Math.min.apply(null, data),
       actMax = Math.max.apply(null, data) - actMin;
@@ -28,20 +27,19 @@ function refreshView (data) {
   var options = { width: 1100, height: 500 };
 
   chart.draw(data, options);
+  callback();
 }
 
-io.on("powerData", function (powerData) {
-  refreshView(powerData.data);
+io.on("update", function (updateData) {
+  refreshView(updateData.data, function () {
+    if (updateData.alarm) {
+      document.getElementById("alarm-g").style.display = 'none';
+      document.getElementById("alarm-b").style.display = 'block';
+      document.getElementById("alarm-b").innerHTML = "Anomaly detected: " + updateData.alarmMessage;
+    } else {
+      document.getElementById("alarm-g").style.display = 'block';
+      document.getElementById("alarm-b").style.display = 'none';
+      document.getElementById("alarm-g").innerHTML = "Status: No anomaly";
+    }
+  });
 });
-
-io.on('alarm', function (alarmData) {
-  if (alarmData.alarm) {
-    document.getElementById("alarm-g").style.display = 'none';
-    document.getElementById("alarm-b").style.display = 'block';
-    document.getElementById("alarm-b").innerHTML = "Anomalies Detected: " + alarmData.alarmMessage;
-  } else {
-    document.getElementById("alarm-g").style.display = 'block';
-    document.getElementById("alarm-b").style.display = 'none';
-    document.getElementById("alarm-g").innerHTML = "No Anomalies Detected.";
-  }
-})

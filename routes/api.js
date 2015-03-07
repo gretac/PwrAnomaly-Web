@@ -41,14 +41,12 @@ router.post('/upload', function (req, res) {
     fs.rename(files.traceFile.path, "files/trace.dat", function (err) {
       if (err) throw err;
 
-      // update graph with new data
-      req.io.route('update');
-
       // update alarm and message
       req.body = {};
       req.body.alarm = (fields.alarm === "true");
       req.body.alarmMessage = fields.alarmMessage;
-      req.io.route('upalarm');
+      // update graph with new data
+      req.io.route('updateWeb');
 
       res.end();
     })

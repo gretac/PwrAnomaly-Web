@@ -29,7 +29,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/api', api);
 
-app.io.route('update', function (req) {
+app.io.route('updateWeb', function (req) {
   console.log('broadcasting update to clients');
 
   fs.readFile('files/trace.dat', function (err, fileContent) {
@@ -40,12 +40,13 @@ app.io.route('update', function (req) {
       fileContent[index] = parseInt(elem);
     });
 
-    req.io.broadcast('powerData', { data: fileContent });
-  });
-});
+    req.io.broadcast('update', {
+      data: fileContent,
+      alarm: req.body.alarm,
+      alarmMessage: req.body.alarmMessage
+    });
 
-app.io.route('upalarm', function (req) {
-  req.io.broadcast('alarm', { alarm: req.body.alarm, alarmMessage: req.body.alarmMessage });
+  });
 });
 
 // catch 404 and forward to error handler

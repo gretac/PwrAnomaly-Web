@@ -2,6 +2,7 @@ import sys
 import httplib
 import mimetypes
 
+# HOST = "power.gretacutulenco.com"
 HOST = "localhost"
 PORT = "3002"
 ENDPOINT = "/api/upload"
