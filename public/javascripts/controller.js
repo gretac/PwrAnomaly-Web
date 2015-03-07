@@ -6,8 +6,9 @@ window.onload = function () {
   chart = new google.charts.Line(document.getElementById('power_chart'));
 };
 
-function refreshView (data, callback) {
+function refreshView (updateData, callback) {
   // display updated data in the view
+  var data = updateData.data;
   var doubleMax = 200, targetMax = 100;
   var actMin = Math.min.apply(null, data),
       actMax = Math.max.apply(null, data) - actMin;
@@ -24,14 +25,17 @@ function refreshView (data, callback) {
   data.addColumn('number', 'Power (%)');
   data.addRows(scaledData);
 
-  var options = { width: 1100, height: 500 };
+  var options = { height: 500 };
+
+  if (updateData.alarm) options.colors = ['red'];
+  else options.colors = ['blue'];
 
   chart.draw(data, options);
   callback();
 }
 
 io.on("update", function (updateData) {
-  refreshView(updateData.data, function () {
+  refreshView(updateData, function () {
     if (updateData.alarm) {
       document.getElementById("alarm-g").style.display = 'none';
       document.getElementById("alarm-b").style.display = 'block';
