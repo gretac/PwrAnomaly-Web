@@ -28,7 +28,7 @@ function refreshView (updateData, callback) {
   var options = { height: 500 };
 
   if (updateData.alarm) options.colors = ['red'];
-  else options.colors = ['blue'];
+  else options.colors = ['#4285F4'];
 
   chart.draw(data, options);
   callback();

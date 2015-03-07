@@ -35,13 +35,15 @@ app.io.route('updateWeb', function (req) {
   fs.readFile('files/trace.dat', function (err, fileContent) {
     if (err) throw err;
 
+    var validContent = [];
     fileContent = String(fileContent).split("\n");
     fileContent.forEach(function (elem, index) {
-      fileContent[index] = parseInt(elem);
+      elem = parseInt(elem);
+      if (!isNaN(elem)) validContent.push(elem);
     });
 
     req.io.broadcast('update', {
-      data: fileContent,
+      data: validContent,
       alarm: req.body.alarm,
       alarmMessage: req.body.alarmMessage
     });
