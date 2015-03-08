@@ -21,7 +21,7 @@ function refreshView (updateData, callback) {
   });
 
   var data = new google.visualization.DataTable();
-  data.addColumn('number', 'Time (s)');
+  data.addColumn('number', 'Time (ms)');
   data.addColumn('number', 'Power (%)');
   data.addRows(scaledData);
 
