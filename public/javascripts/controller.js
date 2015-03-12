@@ -25,7 +25,7 @@ function refreshView (updateData, callback) {
   data.addColumn('number', 'Power (%)');
   data.addRows(scaledData);
 
-  var options = {};
+  var options = { height: 300 };
 
   if (updateData.alarm) options.colors = ['red'];
   else options.colors = ['#4285F4'];
